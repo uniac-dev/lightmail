@@ -1,0 +1,23 @@
+{
+  "name": "@uniac-dev/mail-sender",
+  "version": "0.1.0",
+  "description": "Typed, dependency-free client for a self-hosted Mail Sender installation",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs"
+  },
+  "devDependencies": { "typescript": "^5.7.0" },
+  "engines": { "node": ">=18" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uniac-dev/mail-sender.git",
+    "directory": "sdk"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "platform": "Darwin/arm64",
+  "seconds": 30.0,
+  "processes": {
+    "backend": {
+      "rss_bytes": 5881856,
+      "cpu_percent": 0.0
+    },
+    "dashboard": {
+      "rss_bytes": 5013504,
+      "cpu_percent": 0.0
+    }
+  },
+  "database_bytes": 131072,
+  "dashboard_assets_bytes": 138157
+}

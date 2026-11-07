@@ -1,0 +1,17 @@
+{
+  "name": "mail-sender-workspace",
+  "private": true,
+  "workspaces": [
+    "dashboard",
+    "sdk"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace sdk && npm run build --workspace dashboard",
+    "check": "npm run check --workspaces",
+    "test": "npm run test --workspace sdk"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^4.1.1"
+  }
+}

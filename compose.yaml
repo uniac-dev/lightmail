@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: .
+    environment:
+      SENDER_ADMIN_TOKEN: ${SENDER_ADMIN_TOKEN:?Set SENDER_ADMIN_TOKEN to a random token of at least 32 characters}
+      SENDER_HOSTNAME: ${SENDER_HOSTNAME:?Set SENDER_HOSTNAME to your sending server hostname}
+      SENDER_PUBLIC_IP: ${SENDER_PUBLIC_IP:-}
+      SENDER_ENVELOPE_FROM: ${SENDER_ENVELOPE_FROM:-}
+      SENDER_REQUIRE_TLS: ${SENDER_REQUIRE_TLS:-true}
+      SENDER_RETENTION_DAYS: ${SENDER_RETENTION_DAYS:-30}
+    volumes:
+      - sender-data:/data
+    restart: unless-stopped
+    stop_grace_period: 20s
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    environment:
+      SENDER_API_URL: http://backend:8080
+    ports:
+      - "127.0.0.1:3000:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped
+volumes:
+  sender-data:

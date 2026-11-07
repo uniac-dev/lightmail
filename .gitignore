@@ -1,0 +1,11 @@
+node_modules/
+*.tgz
+dist/
+dashboard/dist/
+sdk/dist/
+data/
+.env
+.DS_Store
+bin/
+coverage/
+test-results/
