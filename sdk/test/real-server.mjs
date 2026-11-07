@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { MailSender } from "../dist/index.js";
-const client = new MailSender(process.env.SENDER_TEST_TOKEN, { baseUrl: process.env.SENDER_TEST_URL });
+import { LightMail } from "../dist/index.js";
+const client = new LightMail(process.env.SENDER_TEST_TOKEN, { baseUrl: process.env.SENDER_TEST_URL });
 const created = await client.domains.create({ name: "sdk.example.com" });
 assert.equal(created.error, null);
 assert.equal(created.data.status, "pending");
@@ -9,7 +9,7 @@ assert.equal(verified.error, null);
 assert.equal(verified.data.status, "verified");
 const credential = await client.apiKeys.create({ name: "SDK integration", domain_id: created.data.id });
 assert.equal(credential.error, null);
-const sender = new MailSender(credential.data.token, { baseUrl: process.env.SENDER_TEST_URL });
+const sender = new LightMail(credential.data.token, { baseUrl: process.env.SENDER_TEST_URL });
 const input = { from: "SDK <hello@sdk.example.com>", to: "person@example.net", subject: "SDK integration", text: "This uses the real backend." };
 const first = await sender.emails.send(input, { idempotencyKey: "sdk-integration" });
 assert.equal(first.error, null);

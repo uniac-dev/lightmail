@@ -1,6 +1,6 @@
 # Third-party notices
 
-Mail Sender is MIT licensed. The following dependencies retain their own notices.
+LightMail is MIT licensed. The following dependencies retain their own notices.
 
 ## github.com/emersion/go-message
 

@@ -1,14 +1,10 @@
-# Mail Sender
+# LightMail
 
 A small, self-hosted email sending service with a dashboard and a TypeScript
 SDK. MIT licensed.
 
-Mail Sender delivers directly to recipient mail servers. Add a domain, publish
+LightMail delivers directly to recipient mail servers. Add a domain, publish
 its signing record, create a sending key, and send through your own installation.
-
-![Mail Sender dashboard](docs/screenshots/emails.jpg)
-
-Local demonstration data, shown in the real dashboard.
 
 ## What runs
 
@@ -32,14 +28,14 @@ and 4.8 MiB for the dashboard server on macOS arm64. See
 
 ## Start with Docker
 
-Requirements: Docker Compose, a domain you can edit, a sending server with
+Requirements: Docker Compose with BuildKit, a domain you can edit, a sending server with
 outbound TCP access to recipients on destination port 25, and appropriate
 forward/reverse DNS for its sending IP. Configure a stable hostname and PTR
-through the provider controlling that IP. Mail Sender cannot change those
+through the provider controlling that IP. LightMail cannot change those
 network permissions.
 
-    git clone https://github.com/uniac-dev/mail-sender.git
-    cd mail-sender
+    git clone https://github.com/uniac-dev/lightmail.git
+    cd lightmail
     export SENDER_ADMIN_TOKEN="$(openssl rand -hex 32)"
     export SENDER_HOSTNAME="mail.example.com"
     export SENDER_PUBLIC_IP="YOUR_SERVER_PUBLIC_IP"
@@ -62,7 +58,7 @@ loopback by default; the backend has no published host port.
 
 Install the release package:
 
-    npm install https://github.com/uniac-dev/mail-sender/releases/download/v0.1.0/uniac-dev-mail-sender-0.1.0.tgz
+    npm install https://github.com/uniac-dev/lightmail/releases/download/v0.2.0/uniac-dev-lightmail-0.2.0.tgz
 
 Or build a package from the source checkout:
 
@@ -70,13 +66,13 @@ Or build a package from the source checkout:
     npm run build --workspace sdk
     npm pack --workspace sdk
     # In your application:
-    npm install /path/to/uniac-dev-mail-sender-0.1.0.tgz
+    npm install /path/to/uniac-dev-lightmail-0.2.0.tgz
 
 Usage:
 
-    import { MailSender } from "@uniac-dev/mail-sender";
+    import { LightMail } from "@uniac-dev/lightmail";
 
-    const sender = new MailSender(process.env.MAIL_SENDER_API_KEY!, {
+    const sender = new LightMail(process.env.LIGHTMAIL_API_KEY!, {
       baseUrl: "https://mail.example.com/api",
     });
 
@@ -155,7 +151,7 @@ Use Go 1.27.3 and Node.js 22 for the same runtime versions as CI.
 
     export SENDER_ADMIN_TOKEN="$(openssl rand -hex 32)"
     export SENDER_HOSTNAME="mail.example.com"
-    go run ./cmd/mail-sender
+    go run ./cmd/lightmail
     # In another terminal:
     npm run dev --workspace dashboard
 
@@ -165,7 +161,7 @@ restart recovery, and credential boundaries. They do not send internet email.
 
 ## Deploy on Uniac
 
-The separate [mail-sender-deployment](https://github.com/uniac-dev/mail-sender-deployment)
+The separate [lightmail-uniac](https://github.com/uniac-dev/lightmail-uniac)
 repository owns the pinned application source and Uniac composition. The
 backend runs as a singleton with a data volume; the dashboard runs independently
 and exposes the same-origin API proxy.

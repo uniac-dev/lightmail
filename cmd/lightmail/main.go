@@ -11,10 +11,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/uniac-dev/mail-sender/internal/sender"
+	"github.com/uniac-dev/lightmail/internal/sender"
 )
 
-var version = "0.1.0"
+var version = "0.2.0"
 
 func env(name, fallback string) string {
 	if v := os.Getenv(name); v != "" {
@@ -50,7 +50,7 @@ func main() {
 	workerDone := make(chan struct{})
 	go func() { defer close(workerDone); errs <- app.RunWorker(ctx) }()
 	go func() {
-		log.Printf("Mail Sender %s listening on %s", version, server.Addr)
+		log.Printf("LightMail %s listening on %s", version, server.Addr)
 		errs <- server.ListenAndServe()
 	}()
 	select {

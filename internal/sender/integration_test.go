@@ -84,7 +84,7 @@ func TestDashboardFixture(t *testing.T) {
 		dir = t.TempDir()
 	}
 	dns := &generatedDNS{}
-	a, err := newApp(Config{DataDir: dir, AdminToken: testAdmin, Hostname: "mail.example.com", PublicIP: "203.0.113.20", RequireTLS: true, Version: "0.1.0"}, dns, deliveryFunc(func(context.Context, Email, Domain, Recipient) error { return nil }))
+	a, err := newApp(Config{DataDir: dir, AdminToken: testAdmin, Hostname: "mail.example.com", PublicIP: "203.0.113.20", RequireTLS: true, Version: "0.2.0"}, dns, deliveryFunc(func(context.Context, Email, Domain, Recipient) error { return nil }))
 	if err != nil {
 		t.Fatal(err)
 	}

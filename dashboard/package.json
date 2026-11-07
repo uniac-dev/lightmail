@@ -1,5 +1,5 @@
 {
-  "name": "@mail-sender/dashboard",
+  "name": "@lightmail/dashboard",
   "private": true,
   "type": "module",
   "scripts": {

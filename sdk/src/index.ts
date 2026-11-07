@@ -125,7 +125,7 @@ function base64(value: Uint8Array): string {
 
 /** A self-hosted client. Sending keys are scoped by the server; administrator
  * operations require its administrator token. An empty key uses browser cookies. */
-export class MailSender {
+export class LightMail {
   private readonly baseUrl: string;
   private readonly transport: typeof globalThis.fetch;
   private readonly timeoutMs: number;
@@ -188,7 +188,7 @@ export class MailSender {
           data: null,
           error: {
             code: "invalid_response",
-            message: "The server did not return a Mail Sender API response.",
+            message: "The server did not return a LightMail API response.",
             status: response.status,
           },
         };
@@ -213,7 +213,7 @@ export class MailSender {
           code: controller.signal.aborted ? "request_aborted" : "network_error",
           message: controller.signal.aborted
             ? "The request was canceled or timed out. Use the same idempotency key when retrying a send."
-            : "Could not reach the Mail Sender API.",
+            : "Could not reach the LightMail API.",
           status: 0,
         },
       };

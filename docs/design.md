@@ -1,6 +1,6 @@
-# Mail Sender
+# LightMail
 
-Mail Sender is a single-installation, sender-only email service. The backend
+LightMail is a single-installation, sender-only email service. The backend
 accepts authenticated HTTP requests, signs messages for verified domains, and
 delivers directly to recipient MX servers. The dashboard is an independent
 static application with a small HTTP server. Both run without Node.js in
@@ -47,7 +47,7 @@ production. The TypeScript SDK uses the same public HTTP API as the dashboard.
 
 ## Layout and dependencies
 
-The Go backend lives in cmd/mail-sender and internal/sender. bbolt supplies
+The Go backend lives in cmd/lightmail and internal/sender. bbolt supplies
 durability and transaction exclusivity; go-msgauth supplies DKIM; go-message
 supplies MIME construction. All are permissively licensed. Transport uses Go's
 standard SMTP, TLS, DNS, and HTTP implementations. No external queue, database,
@@ -55,7 +55,7 @@ identity service, or authoritative DNS server is required.
 
 dashboard contains the Svelte application and its independent Go static server.
 sdk contains a dependency-free TypeScript client. The independent
-mail-sender-deployment repository owns Uniac configuration and source pinning.
+lightmail-uniac repository owns Uniac configuration and source pinning.
 
 ## Verification
 

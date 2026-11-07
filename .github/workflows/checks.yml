@@ -25,5 +25,5 @@ jobs:
       - run: go vet ./... && go test -race ./...
       - run: go vet ./... && go test -race ./...
         working-directory: dashboard/server
-      - run: docker build -t mail-sender:check .
-      - run: docker build -f dashboard/Dockerfile -t mail-sender-dashboard:check .
+      - run: docker build -t lightmail:check .
+      - run: docker build -f dashboard/Dockerfile -t lightmail-dashboard:check .

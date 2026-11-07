@@ -99,13 +99,13 @@
     sidebar = false;
   }
   const quickstart =
-    'import { MailSender } from "@uniac-dev/mail-sender";\n\nconst sender = new MailSender(process.env.MAIL_SENDER_API_KEY!, {\n  baseUrl: "https://mail.your-domain.com/api",\n});\n\nconst { data, error } = await sender.emails.send({\n  from: "Hello <hello@your-domain.com>",\n  to: "you@example.com",\n  subject: "Your first email",\n  text: "Sent from your own server.",\n}, { idempotencyKey: "welcome-123" });';
+    'import { LightMail } from "@uniac-dev/lightmail";\n\nconst sender = new LightMail(process.env.LIGHTMAIL_API_KEY!, {\n  baseUrl: "https://mail.your-domain.com/api",\n});\n\nconst { data, error } = await sender.emails.send({\n  from: "Hello <hello@your-domain.com>",\n  to: "you@example.com",\n  subject: "Your first email",\n  text: "Sent from your own server.",\n}, { idempotencyKey: "welcome-123" });';
 </script>
 
 {#if c.loading}
   <div class="loading-screen">
     <div class="brand-mark"><Send size={22} /></div>
-    <LoaderCircle size={20} class="spin" /><span>Connecting to Mail Sender</span
+    <LoaderCircle size={20} class="spin" /><span>Connecting to LightMail</span
     >
   </div>
 {:else if !c.authenticated}
@@ -120,7 +120,7 @@
     >
       <div class="brand-mark large"><Send size={27} /></div>
       <div class="eyebrow">YOUR SERVER. YOUR EMAIL.</div>
-      <h1>Welcome to Mail Sender</h1>
+      <h1>Welcome to LightMail</h1>
       <p>Sign in to your installation.</p>
       {#if c.error}<div class="alert error" role="alert">{c.error}</div>{/if}
       <label for="admin-token">Administrator token</label>
@@ -142,14 +142,14 @@
         <ShieldCheck size={14} /> Your token stays with this installation.
       </div>
     </form>
-    <div class="login-footer">Mail Sender <span>Open source · MIT</span></div>
+    <div class="login-footer">LightMail <span>Open source · MIT</span></div>
   </main>
 {:else}
   <div class="app-shell">
     <aside class:mobile-open={sidebar}>
       <a class="brand" href="#emails" onclick={() => navigate("emails")}
         ><span class="brand-mark"><Send size={19} /></span><span
-          >Mail Sender</span
+          >LightMail</span
         ></a
       >
       <div class="installation">
@@ -218,7 +218,7 @@
         </div>
         <a
           class="top-link"
-          href="https://github.com/uniac-dev/mail-sender"
+          href="https://github.com/uniac-dev/lightmail"
           target="_blank"
           rel="noreferrer">GitHub<ArrowUpRight size={13} /></a
         >
@@ -617,7 +617,7 @@
                 </p>
                 <a
                   class="text-button"
-                  href="https://github.com/uniac-dev/mail-sender/tree/main/sdk"
+                  href="https://github.com/uniac-dev/lightmail/tree/main/sdk"
                   target="_blank"
                   rel="noreferrer">SDK installation<ArrowUpRight size={14} /></a
                 >
@@ -628,7 +628,7 @@
         <footer class="page-footer">
           <span
             ><span class="online-dot"></span>Your infrastructure. Your messages.</span
-          ><span>Mail Sender · MIT</span>
+          ><span>LightMail · MIT</span>
         </footer>
       </div>
     </main>

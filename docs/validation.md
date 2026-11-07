@@ -1,6 +1,6 @@
 # Release validation
 
-The initial release was checked locally on macOS arm64, with Linux containers
+Mail Sender v0.1.0, the release before the LightMail rename, was checked locally on macOS arm64, with Linux containers
 for the production images. CI repeats compilation, type checks, SDK and backend
 tests, and both container builds.
 

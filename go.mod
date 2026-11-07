@@ -1,4 +1,4 @@
-module github.com/uniac-dev/mail-sender
+module github.com/uniac-dev/lightmail
 
 go 1.26.0
 

@@ -1,19 +1,19 @@
-# Mail Sender TypeScript SDK
+# LightMail TypeScript SDK
 
-A dependency-free client for your self-hosted Mail Sender installation.
+A dependency-free client for your self-hosted LightMail installation.
 Requires Node.js 18+ or a browser with Fetch and AbortController.
 
 Install the release tarball:
 
-    npm install https://github.com/uniac-dev/mail-sender/releases/download/v0.1.0/uniac-dev-mail-sender-0.1.0.tgz
+    npm install https://github.com/uniac-dev/lightmail/releases/download/v0.2.0/uniac-dev-lightmail-0.2.0.tgz
 
 Build with **npm ci && npm run build --workspace sdk** from the repository root.
 Run **npm pack --workspace sdk** and install the generated tarball in your app.
-The package is named **@uniac-dev/mail-sender**; this repository supplies its
+The package is named **@uniac-dev/lightmail**; this repository supplies its
 source and build, not an npm registry publication.
 
-    import { MailSender } from "@uniac-dev/mail-sender";
-    const sender = new MailSender(process.env.MAIL_SENDER_API_KEY!, {
+    import { LightMail } from "@uniac-dev/lightmail";
+    const sender = new LightMail(process.env.LIGHTMAIL_API_KEY!, {
       baseUrl: "https://your-dashboard.example.com/api",
       timeoutMs: 30_000,
     });
@@ -67,7 +67,7 @@ metadata; retrieve an individual message for its body and attachments.
 
 Use the administrator token in a server-side client for these operations:
 
-    const admin = new MailSender(process.env.MAIL_SENDER_ADMIN_TOKEN!, {
+    const admin = new LightMail(process.env.LIGHTMAIL_ADMIN_TOKEN!, {
       baseUrl: "https://your-dashboard.example.com/api",
     });
     await admin.domains.create({ name: "example.com" });

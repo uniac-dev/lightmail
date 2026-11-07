@@ -1,4 +1,4 @@
-FROM node:22-alpine AS assets
+FROM --platform=$BUILDPLATFORM node:22-alpine AS assets
 WORKDIR /src
 COPY package.json package-lock.json ./
 COPY dashboard/package.json dashboard/package.json
@@ -8,10 +8,11 @@ COPY dashboard dashboard
 COPY sdk sdk
 RUN npm run build --workspace dashboard
 
-FROM golang:1.27.3-alpine AS build
+FROM --platform=$BUILDPLATFORM golang:1.27.3-alpine AS build
+ARG TARGETOS TARGETARCH
 WORKDIR /src
 COPY dashboard/server ./
-RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /dashboard .
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -trimpath -ldflags="-s -w" -o /dashboard .
 
 FROM gcr.io/distroless/static-debian12:nonroot
 COPY LICENSE THIRD_PARTY_NOTICES.md /licenses/

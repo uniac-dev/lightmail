@@ -31,7 +31,7 @@ func handler(root, upstream string) (http.Handler, error) {
 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, _ error) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(502)
-		_, _ = w.Write([]byte("{\"error\":{\"code\":\"backend_unavailable\",\"message\":\"The Mail Sender backend is unavailable.\"}}"))
+		_, _ = w.Write([]byte("{\"error\":{\"code\":\"backend_unavailable\",\"message\":\"The LightMail backend is unavailable.\"}}"))
 	}
 	files := http.FileServer(http.Dir(root))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -78,7 +78,7 @@ func main() {
 		defer done()
 		_ = server.Shutdown(shutdown)
 	}()
-	log.Printf("Mail Sender dashboard listening on %s", server.Addr)
+	log.Printf("LightMail dashboard listening on %s", server.Addr)
 	if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal(err)
 	}

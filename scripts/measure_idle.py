@@ -49,10 +49,10 @@ def main():
     if not (ROOT / "dashboard/dist/index.html").exists():
         raise SystemExit("Run npm ci && npm run build first.")
     (ROOT / "bin").mkdir(exist_ok=True)
-    subprocess.run(["go", "build", "-trimpath", "-ldflags=-s -w", "-o", "bin/mail-sender", "./cmd/mail-sender"], cwd=ROOT, check=True)
+    subprocess.run(["go", "build", "-trimpath", "-ldflags=-s -w", "-o", "bin/lightmail", "./cmd/lightmail"], cwd=ROOT, check=True)
     subprocess.run(["go", "build", "-trimpath", "-ldflags=-s -w", "-o", str(ROOT / "bin/dashboard"), "."], cwd=ROOT / "dashboard/server", check=True)
     owned = []
-    with tempfile.TemporaryDirectory(prefix="mail-sender-idle-") as directory:
+    with tempfile.TemporaryDirectory(prefix="lightmail-idle-") as directory:
         backend_port, dashboard_port = port(), port()
         env = dict(os.environ, SENDER_ADDRESS=f"127.0.0.1:{backend_port}",
                    SENDER_ADMIN_TOKEN=secrets.token_urlsafe(36), SENDER_DATA_DIR=directory,
@@ -60,7 +60,7 @@ def main():
                    DASHBOARD_ADDRESS=f"127.0.0.1:{dashboard_port}", DASHBOARD_ROOT=str(ROOT / "dashboard/dist"))
         with tempfile.TemporaryFile() as logs:
             try:
-                for binary in ["mail-sender", "dashboard"]:
+                for binary in ["lightmail", "dashboard"]:
                     owned.append(subprocess.Popen([str(ROOT / "bin" / binary)], env=env, cwd=ROOT, stdout=logs, stderr=logs))
                 ready(f"http://127.0.0.1:{backend_port}/healthz")
                 ready(f"http://127.0.0.1:{dashboard_port}/")

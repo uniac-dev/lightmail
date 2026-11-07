@@ -1,5 +1,5 @@
 {
-  "name": "mail-sender-workspace",
+  "name": "lightmail-workspace",
   "private": true,
   "workspaces": [
     "dashboard",

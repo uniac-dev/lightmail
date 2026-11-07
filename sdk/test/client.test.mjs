@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
-import { MailSender } from "../dist/index.js";
+import { LightMail } from "../dist/index.js";
 
 async function fixture(t, handler) {
   const server = createServer(handler);
@@ -21,7 +21,7 @@ test("sends typed content, binary attachments, authentication and idempotency", 
     res.writeHead(202, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ data: { id: "em_test", status: "queued" } }));
   });
-  const client = new MailSender("test-key", { baseUrl });
+  const client = new LightMail("test-key", { baseUrl });
   const result = await client.emails.send({
     from: "hello@example.com", to: "person@example.net", subject: "Hello", text: "Body",
     attachments: [{ filename: "example.txt", content: new Uint8Array([72, 105]) }],
@@ -40,7 +40,7 @@ test("preserves structured errors without exposing the credential", async t => {
     res.writeHead(403, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: { code: "domain_not_allowed", message: "This key cannot send from that domain." } }));
   });
-  const result = await new MailSender("credential-sentinel", { baseUrl }).domains.list();
+  const result = await new LightMail("credential-sentinel", { baseUrl }).domains.list();
   assert.equal(result.data, null);
   assert.deepEqual(result.error, { code: "domain_not_allowed", message: "This key cannot send from that domain.", status: 403 });
   assert.ok(!JSON.stringify(result).includes("credential-sentinel"));
@@ -56,7 +56,7 @@ test("binds native Fetch to its global receiver, as browsers require", async t =
     assert.equal(this, globalThis, "native Fetch received the client instance as its receiver");
     return nativeFetch(...args);
   };
-  const result = await new MailSender("key", { baseUrl, fetch: browserLikeFetch }).system.status();
+  const result = await new LightMail("key", { baseUrl, fetch: browserLikeFetch }).system.status();
   assert.equal(result.error, null);
   assert.equal(result.data.hostname, "mail.example.com");
 });
@@ -68,7 +68,7 @@ test("handles pagination and encodes filters and resource identifiers", async t 
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ data: [], has_more: true, next_cursor: "em_next" }));
   });
-  const client = new MailSender("key", { baseUrl: baseUrl + "/" });
+  const client = new LightMail("key", { baseUrl: baseUrl + "/" });
   const result = await client.emails.list({ limit: 10, after: "a&b", status: "queued" });
   assert.deepEqual(result.data, { items: [], has_more: true, next_cursor: "em_next" });
   assert.equal(paths[0], "/v1/emails?limit=10&after=a%26b&status=queued");
@@ -79,11 +79,11 @@ test("handles pagination and encodes filters and resource identifiers", async t 
 test("reports invalid success responses and canceled requests without retrying", async t => {
   let requests = 0;
   const baseUrl = await fixture(t, (req, res) => { requests++; res.end("not JSON"); });
-  const result = await new MailSender("key", { baseUrl }).system.status();
+  const result = await new LightMail("key", { baseUrl }).system.status();
   assert.equal(result.error.code, "invalid_response");
   assert.equal(requests, 1);
   const canceled = new AbortController(); canceled.abort();
-  const abortResult = await new MailSender("key", { baseUrl }).emails.send({
+  const abortResult = await new LightMail("key", { baseUrl }).emails.send({
     from: "a@example.com", to: "b@example.net", subject: "Test", text: "Body",
   }, { signal: canceled.signal });
   assert.equal(abortResult.error.code, "request_aborted");

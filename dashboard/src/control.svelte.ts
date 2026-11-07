@@ -1,4 +1,4 @@
-import { MailSender } from "../../sdk/src/index";
+import { LightMail } from "../../sdk/src/index";
 import type {
   APIKey,
   Domain,
@@ -25,7 +25,7 @@ export type Modal =
   | null;
 
 export class Dashboard {
-  readonly api = new MailSender("", { baseUrl: "/api" });
+  readonly api = new LightMail("", { baseUrl: "/api" });
   authenticated = $state(false);
   loading = $state(true);
   busy = $state(false);
